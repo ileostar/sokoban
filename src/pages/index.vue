@@ -6,6 +6,6 @@ defineOptions({
 
 <template>
   <div>
-    <TheFooter />
+    demo
   </div>
 </template>
