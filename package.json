@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.7.0",
-    "vue": "^3.3.10",
+    "vue": "^3.4.21",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
