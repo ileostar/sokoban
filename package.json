@@ -16,7 +16,9 @@
     "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {
+    "@ileostar/v3-directives": "^1.0.5",
     "@vueuse/core": "^10.9.0",
+    "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
