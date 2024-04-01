@@ -38,7 +38,7 @@
     "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "pnpm": "^8.15.4",
-    "simple-git-hooks": "^2.9.0",
+    "simple-git-hooks": "^2.11.1",
     "taze": "^0.13.3",
     "typescript": "^5.3.3",
     "unocss": "^0.58.5",
