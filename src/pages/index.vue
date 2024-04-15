@@ -27,7 +27,6 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useToast } from '@/components/ui/toast/use-toast'
 import Toaster from '@/components/ui/toast/Toaster.vue'
-import { Button } from '@/components/ui/button'
 
 defineOptions({
   name: 'IndexPage',
