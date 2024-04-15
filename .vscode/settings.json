@@ -47,6 +47,8 @@
   ],
   "nuxt.isNuxtApp": false,
   "cSpell.words": [
+    "cssvar",
+    "preflights",
     "sokoban"
   ]
 }

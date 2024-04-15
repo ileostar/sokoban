@@ -5,6 +5,8 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss'
+import presetAnimations from 'unocss-preset-animations'
+import { presetShadcn } from 'unocss-preset-shadcn'
 
 export default defineConfig({
   shortcuts: [
@@ -24,6 +26,10 @@ export default defineConfig({
         serif: 'DM Serif Display',
         mono: 'DM Mono',
       },
+    }),
+    presetAnimations(),
+    presetShadcn({
+      color: 'red',
     }),
   ],
 })

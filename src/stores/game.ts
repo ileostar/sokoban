@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import data from '@/data'
 
 export enum BlockStatus {
   Wall = 1, // 墙壁
@@ -18,65 +19,43 @@ export interface Position {
 
 type Direction = 'left' | 'right' | 'up' | 'down'
 
-type gameStatus = 'play' | 'lost' | 'won'
+type gameStatus = 'wait' | 'play' | 'lost' | 'won'
+
+interface Time {
+  startMS?: number
+  endMS?: number
+}
+
+interface GameData {
+  id: string
+  name: string
+  scene: number[][]
+}
 
 export const useGameStore = defineStore('game', () => {
-  // const WIDTH = 5
-  // const Height = 5
+  /** 当前关卡数 */
+  const currentCheckpointNum = useStorage('currentCheckpointNum', '1') as Ref<string>
   /** 游戏场景数组 */
-  const gameScene = $ref<BlockStatus[][]>([
-    [1, 1, 1, 1, 1],
-    [1, 2, 2, 0, 1],
-    [1, 3, 3, 5, 1],
-    [1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1],
-  ])
-  const status = ref() as Ref<gameStatus>
+  const gameScene = ref<BlockStatus[][]>()
+  const checkpoint = useStorage('checkpoint', toRaw(data)) as Ref<GameData[]>
+  const status = ref('wait') as Ref<gameStatus>
+  const timePiece = ref({}) as Ref<Time>
+  /** 视图大小 */
+  const viewSize = useStorage('viewSize', 'middle')
 
-  /**
-   * 保管员位置
-   */
-  const keeperPosition: Position = $computed(() => {
-    let keeperLocation: Position = { x: -1, y: -1 }
-
-    gameScene.forEach((row, rowIndex) => {
-      row.forEach((blockStatus, colIndex) => {
-        if (blockStatus === BlockStatus.Keeper)
-          keeperLocation = { x: rowIndex, y: colIndex }
-      })
-    })
-
-    return keeperLocation
-  })
-
-  /** 找到保管员当前位置 */
-  function findKeeperLocation(scene: BlockStatus[][]) {
-    let keeperLocation: Position = { x: -1, y: -1 }
-    scene.forEach((row, rowIndex) => {
-      row.forEach((blockStatus, colIndex) => {
-        if (blockStatus === BlockStatus.Keeper || blockStatus === BlockStatus.KeeperTarget)
-          keeperLocation = { x: rowIndex, y: colIndex }
-      })
-    })
-    return keeperLocation
+  /** 加载游戏数据 */
+  function loadingGameData() {
+    localStorage.setItem('data', JSON.stringify(data))
+    if (!currentCheckpointNum.value)
+      currentCheckpointNum.value = data[0].id
+    if (!gameScene.value)
+      gameScene.value = toRaw(data[0].scene)
   }
 
-  /** 获取下一个新的位置信息 */
-  const getNewPosition = (scene: BlockStatus[][], cur: Position, dir: Direction) => {
-    const temp: Position = {
-      x: cur.x,
-      y: cur.y,
-    }
-    if (dir === 'up' && cur.x > 0)
-      temp.x = cur.x - 1
-    else if (dir === 'down' && cur.x < scene.length - 1)
-      temp.x = cur.x + 1
-    else if (dir === 'left' && cur.y > 0)
-      temp.y = cur.y - 1
-    else if (dir === 'right' && cur.y < scene[0].length - 1)
-      temp.y = cur.y + 1
-
-    return temp
+  /** 开始游戏 */
+  function startGame() {
+    timePiece.value.startMS = +new Date()
+    status.value = 'play'
   }
 
   /**
@@ -85,6 +64,36 @@ export const useGameStore = defineStore('game', () => {
    * @param dir 要进行移动的方向
    */
   function move(scene: BlockStatus[][], dir: Direction) {
+    /** 找到保管员当前位置 */
+    function findKeeperLocation(scene: BlockStatus[][]) {
+      let keeperLocation: Position = { x: -1, y: -1 }
+      scene.forEach((row, rowIndex) => {
+        row.forEach((blockStatus, colIndex) => {
+          if (blockStatus === BlockStatus.Keeper || blockStatus === BlockStatus.KeeperTarget)
+            keeperLocation = { x: rowIndex, y: colIndex }
+        })
+      })
+      return keeperLocation
+    }
+
+    /** 获取下一个新的位置信息 */
+    const getNewPosition = (scene: BlockStatus[][], cur: Position, dir: Direction) => {
+      const temp: Position = {
+        x: cur.x,
+        y: cur.y,
+      }
+      if (dir === 'up' && cur.x > 0)
+        temp.x = cur.x - 1
+      else if (dir === 'down' && cur.x < scene.length - 1)
+        temp.x = cur.x + 1
+      else if (dir === 'left' && cur.y > 0)
+        temp.y = cur.y - 1
+      else if (dir === 'right' && cur.y < scene[0].length - 1)
+        temp.y = cur.y + 1
+
+      return temp
+    }
+
     /** 获取当前保管员位置 */
     const cur: Position = findKeeperLocation(scene)
 
@@ -158,35 +167,43 @@ export const useGameStore = defineStore('game', () => {
 
   /** 重置游戏场景 */
   function resetGameScene() {
-    const newArr = [
-      [1, 1, 1, 1, 1],
-      [1, 2, 2, 0, 1],
-      [1, 3, 3, 5, 1],
-      [1, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1],
-    ]
-
-    newArr.forEach((items, x) => {
-      items.forEach((item, y) => {
-        gameScene[x][y] = item
-      })
-    })
+    gameScene.value = JSON.parse(localStorage.getItem('data')!)[Number(currentCheckpointNum.value) - 1].scene
     status.value = 'play'
+    timePiece.value = {}
+    timePiece.value.startMS = +Date.now()
   }
 
   /** 判断游戏状态 */
   function handleGameStatus() {
     if (
-      gameScene.every((items) => {
+      gameScene.value!.every((items) => {
         return items.every(item => item !== BlockStatus.Target && item !== BlockStatus.KeeperTarget)
       })
-    ) status.value = 'won'
+    ) {
+      status.value = 'won'
+      timePiece.value.endMS = +Date.now()
+      if (checkpoint.value[Number(currentCheckpointNum.value)]) {
+        setTimeout(() => {
+          currentCheckpointNum.value = String(Number(currentCheckpointNum.value) + 1)
+          status.value = 'play'
+          timePiece.value = {}
+          timePiece.value.startMS = +new Date()
+        }, 3000)
+      }
+    }
   }
 
+  loadingGameData()
+
   return {
+    currentCheckpointNum,
+    checkpoint,
     gameScene,
     status,
-    keeperPosition,
+    timePiece,
+    viewSize,
+    loadingGameData,
+    startGame,
     move,
     resetGameScene,
     handleGameStatus,
