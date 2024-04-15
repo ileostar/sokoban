@@ -69,9 +69,9 @@ function getViewImg(status: BlockStatus) {
 }
 
 watchEffect(() => {
-  game.gameScene = JSON.parse(localStorage.getItem("data")!)[Number(game.currentCheckpointNum) - 1].scene
+  game.gameScene = JSON.parse(localStorage.getItem('data')!)[Number(game.currentCheckpointNum) - 1].scene
   game.timePiece = {}
-  game.status = "wait"
+  game.status = 'wait'
 })
 
 /**
@@ -195,7 +195,9 @@ watchEffect(() => {
           <AlertDialogTitle>恭喜通过第{{ Number(game.currentCheckpointNum) - 1 }}关🌼</AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction @click="() => game.nextCheckpoint = false">Continue</AlertDialogAction>
+          <AlertDialogAction @click="() => game.nextCheckpoint = false">
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
