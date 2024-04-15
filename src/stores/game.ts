@@ -33,6 +33,7 @@ interface GameData {
 }
 
 export const useGameStore = defineStore('game', () => {
+  const nextCheckpoint = ref(false)
   /** 当前关卡数 */
   const currentCheckpointNum = useStorage('currentCheckpointNum', '1') as Ref<string>
   /** 游戏场景数组 */
@@ -46,6 +47,7 @@ export const useGameStore = defineStore('game', () => {
   /** 加载游戏数据 */
   function loadingGameData() {
     localStorage.setItem('data', JSON.stringify(data))
+    timePiece.value = {}
     if (!currentCheckpointNum.value)
       currentCheckpointNum.value = data[0].id
     if (!gameScene.value)
@@ -184,9 +186,12 @@ export const useGameStore = defineStore('game', () => {
       timePiece.value.endMS = +Date.now()
       if (checkpoint.value[Number(currentCheckpointNum.value)]) {
         setTimeout(() => {
-          currentCheckpointNum.value = String(Number(currentCheckpointNum.value) + 1)
+          if (Number(currentCheckpointNum.value) < data.length)
+            currentCheckpointNum.value = String(Number(currentCheckpointNum.value) + 1)
+
           status.value = 'play'
           timePiece.value = {}
+          nextCheckpoint.value = true
           timePiece.value.startMS = +new Date()
         }, 3000)
       }
@@ -196,6 +201,7 @@ export const useGameStore = defineStore('game', () => {
   loadingGameData()
 
   return {
+    nextCheckpoint,
     currentCheckpointNum,
     checkpoint,
     gameScene,

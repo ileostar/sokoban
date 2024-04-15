@@ -20,13 +20,10 @@ import {
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { useToast } from '@/components/ui/toast/use-toast'
 import Toaster from '@/components/ui/toast/Toaster.vue'
@@ -72,7 +69,9 @@ function getViewImg(status: BlockStatus) {
 }
 
 watchEffect(() => {
-  game.gameScene = toRaw(game.checkpoint[Number(game.currentCheckpointNum) - 1].scene)
+  game.gameScene = JSON.parse(localStorage.getItem("data")!)[Number(game.currentCheckpointNum) - 1].scene
+  game.timePiece = {}
+  game.status = "wait"
 })
 
 /**
@@ -143,13 +142,13 @@ watchEffect(() => {
       <span>|</span>
       <div text="3.5" flex="~ gap-1" items-center font-mono>
         <div i-carbon:spine-label />
-        关卡数：
-        <Select v-model="game.currentCheckpointNum" class="h-5 w-15" align="center">
-          <SelectTrigger class="w-15">
+        <span>关卡数：</span>
+        <Select v-model="game.currentCheckpointNum" class="h-5 w-20" align="center">
+          <SelectTrigger class="w-20">
             <SelectValue placeholder="视图大小" />
           </SelectTrigger>
-          <SelectContent class="w-15">
-            <SelectItem v-for="item in checkpointNum" :key="item" :value="item" class="w-15">
+          <SelectContent>
+            <SelectItem v-for="item in checkpointNum" :key="item" :value="item">
               {{ item }}
             </SelectItem>
           </SelectContent>
@@ -190,23 +189,13 @@ watchEffect(() => {
         </SelectContent>
       </Select>
     </div>
-    <AlertDialog>
-      <AlertDialogTrigger as-child>
-        <Button variant="outline">
-          Show Dialog
-        </Button>
-      </AlertDialogTrigger>
+    <AlertDialog v-model:open="game.nextCheckpoint">
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </AlertDialogDescription>
+          <AlertDialogTitle>恭喜通过第{{ Number(game.currentCheckpointNum) - 1 }}关🌼</AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction @click="() => game.nextCheckpoint = false">Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
