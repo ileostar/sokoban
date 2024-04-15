@@ -20,6 +20,7 @@ export default defineConfig({
     VueMacros({
       defineOptions: false,
       defineModels: false,
+      reactivityTransform: true,
       plugins: {
         vue: Vue({
           script: {

@@ -45,5 +45,8 @@
     "jsonc",
     "yaml"
   ],
-  "nuxt.isNuxtApp": false
+  "nuxt.isNuxtApp": false,
+  "cSpell.words": [
+    "sokoban"
+  ]
 }
