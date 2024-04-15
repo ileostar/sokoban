@@ -2,7 +2,7 @@
 
 [Vitest](https://cn.vitest.dev/)单元测试练习项目（推箱子小游戏）
 
-![alt text](image.png)
+![alt text](public/image.png)
 
 [在线试玩](https://sokoban-vitest.vercel.app)
 
