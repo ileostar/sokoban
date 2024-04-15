@@ -15,7 +15,6 @@ defineOptions({
 
 const gameStore = useGameStore()
 const gameScene = $ref(gameStore.gameScene)
-const gameStatus = $ref(gameStore.status)
 
 /**
  * 根据游戏场景数组返回图片
@@ -80,6 +79,6 @@ watchEffect(() => {
         重置
       </button>
     </div>
-    <Confetti :passed="gameStatus === 'won'" />
+    <Confetti :passed="gameStore.status === 'won'" />
   </div>
 </template>
