@@ -8,30 +8,7 @@ import EmptyImg from '@/assets/empty.png'
 import KeeperTargetImg from '@/assets/keeper_on_target.png'
 import TargetImg from '@/assets/target.png'
 import { BlockStatus } from '@/stores/game'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { useToast } from '@/components/ui/toast/use-toast'
-import Toaster from '@/components/ui/toast/Toaster.vue'
 
 defineOptions({
   name: 'IndexPage',
@@ -71,6 +48,7 @@ function getViewImg(status: BlockStatus) {
   }
 }
 
+/** 监听关卡切换副作用 */
 watchEffect(() => {
   game.gameScene = JSON.parse(localStorage.getItem('data')!)[Number(game.currentCheckpointNum) - 1].scene
   game.timePiece = {}

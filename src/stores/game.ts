@@ -33,16 +33,20 @@ interface GameData {
 }
 
 export const useGameStore = defineStore('game', () => {
-  const nextCheckpoint = ref(false)
   /** 当前关卡数 */
   const currentCheckpointNum = useStorage('currentCheckpointNum', '1') as Ref<string>
   /** 游戏场景数组 */
   const gameScene = ref<BlockStatus[][]>()
+  /** 游戏场景数组集合 */
   const checkpoint = useStorage('checkpoint', toRaw(data)) as Ref<GameData[]>
+  /** 游戏状态 */
   const status = ref('wait') as Ref<gameStatus>
+  /** 计时器 */
   const timePiece = ref({}) as Ref<Time>
   /** 视图大小 */
   const viewSize = useStorage('viewSize', 'middle')
+  /** 控制下一关提示Dialog */
+  const nextCheckpoint = ref(false)
 
   /** 加载游戏数据 */
   function loadingGameData() {
@@ -198,6 +202,7 @@ export const useGameStore = defineStore('game', () => {
     }
   }
 
+  // 初始化
   loadingGameData()
 
   return {

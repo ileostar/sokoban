@@ -50,12 +50,25 @@ export default defineConfig({
       dirs: [
         './src/composables',
         './src/stores',
+        './src/components/ui/alert-dialog',
+        './src/components/ui/button',
+        './src/components/ui/select',
+        './src/components/ui/toast',
+        './src/components/ui/tooltip',
       ],
       vueTemplate: true,
     }),
 
     // https://github.com/antfu/vite-plugin-components
     Components({
+      dirs: [
+        './src/components',
+        './src/components/ui/alert-dialog',
+        './src/components/ui/button',
+        './src/components/ui/select',
+        './src/components/ui/toast',
+        './src/components/ui/tooltip',
+      ],
       dts: true,
     }),
 
