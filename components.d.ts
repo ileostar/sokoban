@@ -40,5 +40,9 @@ declare module 'vue' {
     ToastProvider: typeof import('./src/components/ui/toast/ToastProvider.vue')['default']
     ToastTitle: typeof import('./src/components/ui/toast/ToastTitle.vue')['default']
     ToastViewport: typeof import('./src/components/ui/toast/ToastViewport.vue')['default']
+    Tooltip: typeof import('./src/components/ui/tooltip/Tooltip.vue')['default']
+    TooltipContent: typeof import('./src/components/ui/tooltip/TooltipContent.vue')['default']
+    TooltipProvider: typeof import('./src/components/ui/tooltip/TooltipProvider.vue')['default']
+    TooltipTrigger: typeof import('./src/components/ui/tooltip/TooltipTrigger.vue')['default']
   }
 }

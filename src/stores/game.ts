@@ -193,7 +193,7 @@ export const useGameStore = defineStore('game', () => {
           timePiece.value = {}
           nextCheckpoint.value = true
           timePiece.value.startMS = +new Date()
-        }, 3000)
+        }, 1500)
       }
     }
   }

@@ -16,7 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,7 +38,6 @@ defineOptions({
 })
 
 const { toast } = useToast()
-
 const game = useGameStore()
 
 onMounted(() => {
@@ -77,6 +81,9 @@ watchEffect(() => {
  * 添加键盘事件
  */
 useEventListener('keyup', handleKeyUp)
+useEventListener('keydown', (e) => {
+  e.preventDefault();
+})
 function handleKeyUp(event: Event) {
   const keyboardEvent = event as KeyboardEvent
   const { key } = keyboardEvent
@@ -129,7 +136,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div flex="~ col" items-center justify-center>
+  <div flex="~ col" items-center justify-center overflow-hidden>
     <h1 my-3 text-xl font-bold font-mono>
       推箱子小游戏
     </h1>
@@ -170,10 +177,10 @@ watchEffect(() => {
       </button>
 
       <Select v-model="game.viewSize">
-        <SelectTrigger class="w-25">
+        <SelectTrigger class="w-22">
           <SelectValue placeholder="视图大小" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent class="w-22">
           <SelectGroup>
             <SelectItem value="small">
               小
@@ -187,6 +194,18 @@ watchEffect(() => {
           </SelectGroup>
         </SelectContent>
       </Select>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger as-child>
+            <Button variant="outline" px-3>
+              查看玩法
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p><strong>推箱子怎样玩 : </strong>把箱子绕过障碍物，推到指定的位置，但是所有的箱子只能推，不<br>能拉，而且一次只能推动一个，所有指定位置都有箱子就算获胜了</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
     <AlertDialog v-model:open="game.nextCheckpoint">
       <AlertDialogContent>
@@ -195,7 +214,7 @@ watchEffect(() => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction @click="() => game.nextCheckpoint = false">
-            Continue
+            下一关
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
