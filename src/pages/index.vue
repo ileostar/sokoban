@@ -82,7 +82,7 @@ watchEffect(() => {
  */
 useEventListener('keyup', handleKeyUp)
 useEventListener('keydown', (e) => {
-  e.preventDefault();
+  e.preventDefault()
 })
 function handleKeyUp(event: Event) {
   const keyboardEvent = event as KeyboardEvent
