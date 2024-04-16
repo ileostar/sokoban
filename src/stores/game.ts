@@ -17,7 +17,7 @@ export interface Position {
   y: number
 }
 
-type Direction = 'left' | 'right' | 'up' | 'down'
+export type Direction = 'left' | 'right' | 'up' | 'down'
 
 type gameStatus = 'wait' | 'play' | 'lost' | 'won'
 

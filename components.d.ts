@@ -19,6 +19,8 @@ declare module 'vue' {
     Button: typeof import('./src/components/ui/button/Button.vue')['default']
     Confetti: typeof import('./src/components/Confetti.vue')['default']
     GameScene: typeof import('./src/components/GameScene.vue')['default']
+    Mobile: typeof import('./src/components/mobile.vue')['default']
+    MobileMove: typeof import('./src/components/MobileMove.vue')['default']
     NextCheckpoint: typeof import('./src/components/nextCheckpoint.vue')['default']
     NextDialog: typeof import('./src/components/NextDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
