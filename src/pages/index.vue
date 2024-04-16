@@ -73,10 +73,10 @@ watchEffect(() => {
       <div view-base>
         <div i-carbon:spine-label />
         <span>关卡数：</span>
-        <SelectCheckpoint v-model="game.currentCheckpointNum" :checkpointNum />
+        <SelectCheckpoint v-model="game.currentCheckpointNum" :checkpoint-num />
       </div>
     </div>
-    <GameScene :gameScene="game.gameScene!" />
+    <GameScene :game-scene="game.gameScene!" />
     <div mt-5 flex gap-4>
       <button v-ripple="'rgba(255, 255, 255, 0.35)'" btn-base bg="green-500/70" text-white @click="game.startGame()">
         开始
@@ -85,9 +85,9 @@ watchEffect(() => {
         重置
       </button>
       <SelectSize v-model="game.viewSize" />
-      <TipsPlay/>
+      <TipsPlay />
     </div>
-    <NextDialog v-model="game.nextCheckpoint" :currentCheckpointNum="game.currentCheckpointNum"/>
+    <NextDialog v-model="game.nextCheckpoint" :current-checkpoint-num="game.currentCheckpointNum" />
     <Toaster class="p-5 color-red" />
     <Confetti :passed="game.status === 'won'" />
   </main>

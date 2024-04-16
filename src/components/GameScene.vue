@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { BlockStatus } from '@/stores/game'
 
-const game = useGameStore()
-
 defineProps<{
   gameScene: BlockStatus[][]
 }>()
 
+const game = useGameStore()
+
 /**
  * 根据游戏场景数组返回图片
  */
- function getViewImg(status: BlockStatus) {
+function getViewImg(status: BlockStatus) {
   switch (status) {
     case BlockStatus.Floor :
       return FloorImg
@@ -43,7 +43,6 @@ const getImgSize = $computed(() => {
 </script>
 
 <template>
-
   <div flex="~ col" overflow-hidden b-4 b-gray-3 rd-2 b-double dark:b-gray-5>
     <div v-for="items, y in gameScene" :key="y" flex="~ 1">
       <img v-for="item, x in items" :key="x" :class="getImgSize" flex-1 bg-gray dark:opacity-75 :src="getViewImg(item)">

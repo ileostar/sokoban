@@ -22,5 +22,3 @@ const viewSize = defineModel<string>({ required: true })
     </SelectContent>
   </Select>
 </template>
-
-
