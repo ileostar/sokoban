@@ -16,7 +16,13 @@ declare global {
   const AlertDialogTrigger: typeof import('./src/components/ui/alert-dialog/index')['AlertDialogTrigger']
   const BlockStatus: typeof import('./src/stores/game')['BlockStatus']
   const Button: typeof import('./src/components/ui/button/index')['Button']
+  const CargoImg: typeof import('./src/assets/index')['CargoImg']
+  const CargoTargetImg: typeof import('./src/assets/index')['CargoTargetImg']
   const EffectScope: typeof import('vue')['EffectScope']
+  const EmptyImg: typeof import('./src/assets/index')['EmptyImg']
+  const FloorImg: typeof import('./src/assets/index')['FloorImg']
+  const KeeperImg: typeof import('./src/assets/index')['KeeperImg']
+  const KeeperTargetImg: typeof import('./src/assets/index')['KeeperTargetImg']
   const Select: typeof import('./src/components/ui/select/index')['Select']
   const SelectContent: typeof import('./src/components/ui/select/index')['SelectContent']
   const SelectGroup: typeof import('./src/components/ui/select/index')['SelectGroup']
@@ -28,6 +34,7 @@ declare global {
   const SelectSeparator: typeof import('./src/components/ui/select/index')['SelectSeparator']
   const SelectTrigger: typeof import('./src/components/ui/select/index')['SelectTrigger']
   const SelectValue: typeof import('./src/components/ui/select/index')['SelectValue']
+  const TargetImg: typeof import('./src/assets/index')['TargetImg']
   const Toast: typeof import('./src/components/ui/toast/index')['Toast']
   const ToastAction: typeof import('./src/components/ui/toast/index')['ToastAction']
   const ToastClose: typeof import('./src/components/ui/toast/index')['ToastClose']
@@ -40,6 +47,7 @@ declare global {
   const TooltipContent: typeof import('./src/components/ui/tooltip/index')['TooltipContent']
   const TooltipProvider: typeof import('./src/components/ui/tooltip/index')['TooltipProvider']
   const TooltipTrigger: typeof import('./src/components/ui/tooltip/index')['TooltipTrigger']
+  const WallImg: typeof import('./src/assets/index')['WallImg']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const buttonVariants: typeof import('./src/components/ui/button/index')['buttonVariants']
@@ -351,7 +359,13 @@ declare module 'vue' {
     readonly AlertDialogTrigger: UnwrapRef<typeof import('./src/components/ui/alert-dialog/index')['AlertDialogTrigger']>
     readonly BlockStatus: UnwrapRef<typeof import('./src/stores/game')['BlockStatus']>
     readonly Button: UnwrapRef<typeof import('./src/components/ui/button/index')['Button']>
+    readonly CargoImg: UnwrapRef<typeof import('./src/assets/index')['CargoImg']>
+    readonly CargoTargetImg: UnwrapRef<typeof import('./src/assets/index')['CargoTargetImg']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly EmptyImg: UnwrapRef<typeof import('./src/assets/index')['EmptyImg']>
+    readonly FloorImg: UnwrapRef<typeof import('./src/assets/index')['FloorImg']>
+    readonly KeeperImg: UnwrapRef<typeof import('./src/assets/index')['KeeperImg']>
+    readonly KeeperTargetImg: UnwrapRef<typeof import('./src/assets/index')['KeeperTargetImg']>
     readonly Select: UnwrapRef<typeof import('./src/components/ui/select/index')['Select']>
     readonly SelectContent: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectContent']>
     readonly SelectGroup: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectGroup']>
@@ -363,6 +377,7 @@ declare module 'vue' {
     readonly SelectSeparator: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectSeparator']>
     readonly SelectTrigger: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectTrigger']>
     readonly SelectValue: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectValue']>
+    readonly TargetImg: UnwrapRef<typeof import('./src/assets/index')['TargetImg']>
     readonly Toast: UnwrapRef<typeof import('./src/components/ui/toast/index')['Toast']>
     readonly ToastAction: UnwrapRef<typeof import('./src/components/ui/toast/index')['ToastAction']>
     readonly ToastClose: UnwrapRef<typeof import('./src/components/ui/toast/index')['ToastClose']>
@@ -375,6 +390,7 @@ declare module 'vue' {
     readonly TooltipContent: UnwrapRef<typeof import('./src/components/ui/tooltip/index')['TooltipContent']>
     readonly TooltipProvider: UnwrapRef<typeof import('./src/components/ui/tooltip/index')['TooltipProvider']>
     readonly TooltipTrigger: UnwrapRef<typeof import('./src/components/ui/tooltip/index')['TooltipTrigger']>
+    readonly WallImg: UnwrapRef<typeof import('./src/assets/index')['WallImg']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly buttonVariants: UnwrapRef<typeof import('./src/components/ui/button/index')['buttonVariants']>
@@ -676,7 +692,13 @@ declare module '@vue/runtime-core' {
     readonly AlertDialogTrigger: UnwrapRef<typeof import('./src/components/ui/alert-dialog/index')['AlertDialogTrigger']>
     readonly BlockStatus: UnwrapRef<typeof import('./src/stores/game')['BlockStatus']>
     readonly Button: UnwrapRef<typeof import('./src/components/ui/button/index')['Button']>
+    readonly CargoImg: UnwrapRef<typeof import('./src/assets/index')['CargoImg']>
+    readonly CargoTargetImg: UnwrapRef<typeof import('./src/assets/index')['CargoTargetImg']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly EmptyImg: UnwrapRef<typeof import('./src/assets/index')['EmptyImg']>
+    readonly FloorImg: UnwrapRef<typeof import('./src/assets/index')['FloorImg']>
+    readonly KeeperImg: UnwrapRef<typeof import('./src/assets/index')['KeeperImg']>
+    readonly KeeperTargetImg: UnwrapRef<typeof import('./src/assets/index')['KeeperTargetImg']>
     readonly Select: UnwrapRef<typeof import('./src/components/ui/select/index')['Select']>
     readonly SelectContent: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectContent']>
     readonly SelectGroup: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectGroup']>
@@ -688,6 +710,7 @@ declare module '@vue/runtime-core' {
     readonly SelectSeparator: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectSeparator']>
     readonly SelectTrigger: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectTrigger']>
     readonly SelectValue: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectValue']>
+    readonly TargetImg: UnwrapRef<typeof import('./src/assets/index')['TargetImg']>
     readonly Toast: UnwrapRef<typeof import('./src/components/ui/toast/index')['Toast']>
     readonly ToastAction: UnwrapRef<typeof import('./src/components/ui/toast/index')['ToastAction']>
     readonly ToastClose: UnwrapRef<typeof import('./src/components/ui/toast/index')['ToastClose']>
@@ -700,6 +723,7 @@ declare module '@vue/runtime-core' {
     readonly TooltipContent: UnwrapRef<typeof import('./src/components/ui/tooltip/index')['TooltipContent']>
     readonly TooltipProvider: UnwrapRef<typeof import('./src/components/ui/tooltip/index')['TooltipProvider']>
     readonly TooltipTrigger: UnwrapRef<typeof import('./src/components/ui/tooltip/index')['TooltipTrigger']>
+    readonly WallImg: UnwrapRef<typeof import('./src/assets/index')['WallImg']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly buttonVariants: UnwrapRef<typeof import('./src/components/ui/button/index')['buttonVariants']>

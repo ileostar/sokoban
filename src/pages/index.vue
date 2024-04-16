@@ -1,67 +1,12 @@
 <script setup lang="ts" generic="T extends any, O extends any">
-import WallImg from '@/assets/wall.png'
-import FloorImg from '@/assets/floor.png'
-import KeeperImg from '@/assets/keeper.png'
-import CargoImg from '@/assets/cargo.png'
-import CargoTargetImg from '@/assets/cargo_on_target.png'
-import EmptyImg from '@/assets/empty.png'
-import KeeperTargetImg from '@/assets/keeper_on_target.png'
-import TargetImg from '@/assets/target.png'
-import { BlockStatus } from '@/stores/game'
-import { useToast } from '@/components/ui/toast/use-toast'
-
-defineOptions({
-  name: 'IndexPage',
-})
-
 const { toast } = useToast()
 const game = useGameStore()
 
-onMounted(() => {
-  toast({
-    title: 'TIPS',
-    description: '请按开始键进行游戏！',
-  })
-})
-
-/**
- * 根据游戏场景数组返回图片
- */
-function getViewImg(status: BlockStatus) {
-  switch (status) {
-    case BlockStatus.Floor :
-      return FloorImg
-    case BlockStatus.Wall :
-      return WallImg
-    case BlockStatus.Keeper :
-      return KeeperImg
-    case BlockStatus.Cargo :
-      return CargoImg
-    case BlockStatus.CargoTarget :
-      return CargoTargetImg
-    case BlockStatus.Empty :
-      return EmptyImg
-    case BlockStatus.KeeperTarget :
-      return KeeperTargetImg
-    case BlockStatus.Target :
-      return TargetImg
-  }
-}
-
-/** 监听关卡切换副作用 */
-watchEffect(() => {
-  game.gameScene = JSON.parse(localStorage.getItem('data')!)[Number(game.currentCheckpointNum) - 1].scene
-  game.timePiece = {}
-  game.status = 'wait'
-})
-
-/**
- * 添加键盘事件
- */
-useEventListener('keyup', handleKeyUp)
+/** 去除默认事件 */
 useEventListener('keydown', (e) => {
   e.preventDefault()
 })
+/** 处理键盘事件 */
 function handleKeyUp(event: Event) {
   const keyboardEvent = event as KeyboardEvent
   const { key } = keyboardEvent
@@ -78,6 +23,7 @@ function handleKeyUp(event: Event) {
     }
   }
 }
+/** 键盘事件移动函数 */
 function handleArrowKeys(e: KeyboardEvent) {
   if (e.key === 'ArrowUp')
     game.move(game.gameScene!, 'up')
@@ -88,23 +34,23 @@ function handleArrowKeys(e: KeyboardEvent) {
   else if (e.key === 'ArrowRight')
     game.move(game.gameScene!, 'right')
 }
-
-/** 改变视图大小 */
-const getImgSize = $computed(() => {
-  if (game.viewSize === 'small')
-    return 'h-6 w-6'
-  else if (game.viewSize === 'middle')
-    return 'h-8 w-8'
-  else if (game.viewSize === 'big')
-    return 'h-10 w-10'
-})
+/** 添加键盘事件 */
+useEventListener('keyup', handleKeyUp)
 
 /** 计时 */
 const now = $(useNow())
 const timerMS = $computed(() => Math.round(((game.timePiece.endMS ?? +now) - (game.timePiece.startMS ?? +now)) / 1000))
 
-const checkpointNum = $computed(() => {
+/** 关卡列表 */
+const checkpointNum: Array<string> = $computed(() => {
   return game.checkpoint.map(item => item.id)
+})
+
+/** 监听关卡切换副作用 */
+watchEffect(() => {
+  game.gameScene = JSON.parse(localStorage.getItem('data')!)[Number(game.currentCheckpointNum) - 1].scene
+  game.timePiece = {}
+  game.status = 'wait'
 })
 
 /** 检查游戏状况 */
@@ -114,90 +60,35 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div flex="~ col" items-center justify-center overflow-hidden>
-    <h1 my-3 text-xl font-bold font-mono>
+  <main flex-base flex-col>
+    <h1 my-3 text-xl font="bold mono">
       推箱子小游戏
     </h1>
-    <div mb-3 flex items-center gap-5>
-      <div text="3.5" flex="~ gap-1" items-center font-mono>
+    <div flex-base gap-5 mb-3>
+      <div view-base>
         <div i-carbon-timer />
         计时：{{ timerMS }}
       </div>
       <span>|</span>
-      <div text="3.5" flex="~ gap-1" items-center font-mono>
+      <div view-base>
         <div i-carbon:spine-label />
         <span>关卡数：</span>
-        <Select v-model="game.currentCheckpointNum" class="h-5 w-20" align="center">
-          <SelectTrigger class="w-20">
-            <SelectValue placeholder="视图大小" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem v-for="item in checkpointNum" :key="item" :value="item">
-              {{ item }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        <SelectCheckpoint v-model="game.currentCheckpointNum" :checkpointNum />
       </div>
     </div>
-    <div flex="~ gap-10" justify-center>
-      <div flex="~ col" overflow-hidden b-4 b-gray-3 rd-2 b-double dark:b-gray-5>
-        <div v-for="items, y in game.gameScene" :key="y" flex="~ 1">
-          <img v-for="item, x in items" :key="x" :class="getImgSize" flex-1 bg-gray dark:opacity-75 :src="getViewImg(item)">
-        </div>
-      </div>
-    </div>
-    <div class="control" mt-5 flex gap-4>
-      <button v-ripple="'rgba(255, 255, 255, 0.35)'" bg="green-500/70" h-10 w-20 rd-2 text-white outline-none @click="game.startGame()">
+    <GameScene :gameScene="game.gameScene!" />
+    <div mt-5 flex gap-4>
+      <button v-ripple="'rgba(255, 255, 255, 0.35)'" btn-base bg="green-500/70" text-white @click="game.startGame()">
         开始
       </button>
-      <button v-ripple="'rgba(255, 255, 255, 0.35)'" bg="gray-300/70" h-10 w-20 rd-2 text-black outline-none @click="game.resetGameScene()">
+      <button v-ripple="'rgba(255, 255, 255, 0.35)'" btn-base bg="gray-300/70" text-black @click="game.resetGameScene()">
         重置
       </button>
-
-      <Select v-model="game.viewSize">
-        <SelectTrigger class="w-22">
-          <SelectValue placeholder="视图大小" />
-        </SelectTrigger>
-        <SelectContent class="w-22">
-          <SelectGroup>
-            <SelectItem value="small">
-              小
-            </SelectItem>
-            <SelectItem value="middle">
-              中
-            </SelectItem>
-            <SelectItem value="big">
-              大
-            </SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger as-child>
-            <Button variant="outline" px-3>
-              查看玩法
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p><strong>推箱子怎样玩 : </strong>把箱子绕过障碍物，推到指定的位置，但是所有的箱子只能推，不<br>能拉，而且一次只能推动一个，所有指定位置都有箱子就算获胜了</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <SelectSize v-model="game.viewSize" />
+      <TipsPlay/>
     </div>
-    <AlertDialog v-model:open="game.nextCheckpoint">
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>恭喜通过第{{ Number(game.currentCheckpointNum) - 1 }}关🌼</AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction @click="() => game.nextCheckpoint = false">
-            下一关
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <NextDialog v-model="game.nextCheckpoint" :currentCheckpointNum="game.currentCheckpointNum"/>
     <Toaster class="p-5 color-red" />
     <Confetti :passed="game.status === 'won'" />
-  </div>
+  </main>
 </template>

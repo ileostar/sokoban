@@ -20,7 +20,7 @@ export default defineConfig({
     VueMacros({
       betterDefine: false,
       defineOptions: false,
-      defineModels: false,
+      defineModels: true,
       reactivityTransform: true,
       plugins: {
         vue: Vue({
@@ -48,6 +48,7 @@ export default defineConfig({
       ],
       dts: true,
       dirs: [
+        './src/assets',
         './src/composables',
         './src/stores',
         './src/components/ui/alert-dialog',
