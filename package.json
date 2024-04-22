@@ -28,7 +28,7 @@
     "radix-vue": "^1.7.0",
     "tailwind-merge": "^2.2.2",
     "vue": "^3.4.22",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.14.0",
