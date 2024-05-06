@@ -49,7 +49,7 @@
     "lint-staged": "^15.2.2",
     "pnpm": "^8.15.7",
     "simple-git-hooks": "^2.11.1",
-    "taze": "^0.13.4",
+    "taze": "^0.13.8",
     "typescript": "^5.4.5",
     "unocss": "^0.59.2",
     "unocss-preset-animations": "^1.0.2",
